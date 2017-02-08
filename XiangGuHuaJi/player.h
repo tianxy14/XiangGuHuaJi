@@ -13,6 +13,9 @@
 #include "ai.h"
 
 #ifdef _MSC_VER
+// Du 2017.2.6
+// EXCLUDE windows sockets
+#define WIN32_LEAN_AND_MEAN
 #include"windows.h"
 #define __FUCK_LOADDLL(x) LoadLibraryA(x)
 #define __FUCK_CLOSEDLL(x) FreeLibrary(x)
@@ -32,8 +35,8 @@ namespace XGHJ {
 using namespace std;
 
 typedef void (*TPlayerAi)(Info& info); 
-typedef TMoney (*TBirthplacePrice)(void);
-typedef TPosition (*TBirthplace)(vector<TPosition> posSelected);
+typedef TMoney (*TBirthplacePrice)(BaseMap* map);
+typedef TPosition (*TBirthplace)(vector<TPosition> posSelected, BaseMap* map);
 
 class Player
 {
@@ -43,8 +46,8 @@ public:
     ~Player();
 
     bool run(Info &info);
-    bool run(TMoney &price);
-    bool run(TPosition &pos, vector<TPosition> &posSelected);
+    bool run(TMoney &price, BaseMap* map);
+    bool run(TPosition &pos, vector<TPosition> &posSelected, BaseMap* map);
 
     bool load();
 

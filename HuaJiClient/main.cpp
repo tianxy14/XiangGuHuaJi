@@ -17,9 +17,11 @@
 
 #include "definition.h"
 #include "game.h"
+#include "player.h"
 
 #include "xghj_protocol.h"
 #include "military_kernel_reader.h"
+
 
 using namespace std;
 using namespace XGHJ;
@@ -149,7 +151,7 @@ int main(int argc, char** argv)
         cout << "[Game] bidding" << endl;
 
         // calc price
-        my_player.run(my_price);
+        my_player.run(my_price, &(game.map));
         bidPrice[my_player_id] = my_price;
 
         // send my price
@@ -178,7 +180,7 @@ int main(int argc, char** argv)
             pos.y = getNumber(&p);
             posUnaccessible.push_back(pos);
         }
-        my_player.run(my_pos, posUnaccessible);
+        my_player.run(my_pos, posUnaccessible, &(game.map));
 
         // send my_pos
         sprintf(buffer, "%d %d", my_pos.x, my_pos.y);
